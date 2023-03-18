@@ -15,7 +15,18 @@ const create = async (req, res, next) => {
   }
 }
 
+const createMany = async (req, res, next) => {
+  try {
+    const employees = req.body;
+    const newEmployees = await employeesService.createMany(employees);
+    res.status(201).json(newEmployees);
+  } catch (error){
+    next(error);
+  }
+}
+
 module.exports = {
   getAll,
   create,
+  createMany,
 }

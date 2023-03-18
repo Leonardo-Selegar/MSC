@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.get('/employees', employeesController.getAll);
 app.post('/employee', employeesController.create);
+app.post('/employees', employeesController.createMany);
 
 app.use((error, req, res, next) => {
   if (error.status)  {
