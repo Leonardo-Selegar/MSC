@@ -6,6 +6,13 @@ const getAll = async () => {
   return employees;
 }
 
+const create = async ({ firstName, lastName, office }) => {
+  const query = 'INSERT INTO exercises.employees(first_name, last_name, office) VALUES(?, ?, ?)';
+  const [newEmployee] = await connection.execute(query, [firstName, lastName, office]); //usando as '?' previne ataques de sql injection
+  return newEmployee.insertId;
+}
+
 module.exports = {
   getAll,
+  create,
 }
