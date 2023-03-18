@@ -1,0 +1,11 @@
+Objetivos
+
+- Criar um endpoint do tipo post
+- Criar dois endpoint do tipo get
+- Consolidar as responsabilidades de cada camada
+- Trabalhar com o fluxo e tratativa de erros da requisição
+- Realizar a escrita das informações em um banco mysql
+
+rodando o container
+
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=docker -d -p 3306:3306 mysql
