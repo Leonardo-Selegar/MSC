@@ -13,9 +13,23 @@ const employeeSchema = Joi.object({
   'string.empty': '{{#label}} must not be empty',
 });
 
+const idSchema = Joi.object({
+  id: Joi.number().min(1).required(),
+})
+
 const getAll = async () => {
   const employees = await employeesModel.getAll();
   return employees;
+};
+
+const getById = async (id) => {
+  const { error } = idSchema.validate({id});
+  if (error) throw { status: 400, message: error.message };
+
+  const employee = await employeesModel.getById(id);
+
+  if (!employee) throw { status: 404, message: '"employee" not found'};
+  return employee;
 };
 
 const create = async ({ firstName, lastName, office }) => {
@@ -45,6 +59,7 @@ const createMany = async (employeesArray) => {
 
 module.exports = {
   getAll,
+  getById,
   create,
   createMany,
 }

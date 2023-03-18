@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/employees', employeesController.getAll);
+app.get('/employee/:id', employeesController.getById);
 app.post('/employee', employeesController.create);
 app.post('/employees', employeesController.createMany);
 
