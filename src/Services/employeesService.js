@@ -1,21 +1,6 @@
-const Joi = require('joi')
 const employeesModel = require('../Models/employeesModel');
 const officesModel = require('../Models/officesModel');
-
-const employeeSchema = Joi.object({
-  firstName: Joi.string().min(2).max(45).required().label('firstName'),
-  lastName: Joi.string().min(2).max(45).required().label('lastName'),
-  office: Joi.number().min(1).required().label('office'),
-}).messages({
-  'any.required': '{{#label}} is required',
-  'string.min': '{{#label}} must be at least {{#limit}} characters long',
-  'string.max': '{{#label}} must have a max of {{#limit}} characters long',
-  'string.empty': '{{#label}} must not be empty',
-});
-
-const idSchema = Joi.object({
-  id: Joi.number().min(1).required(),
-})
+const { employeeSchema, idSchema, employeesArraySchema } = require('./authentication/schemas')
 
 const getAll = async () => {
   const employees = await employeesModel.getAll();
@@ -45,7 +30,6 @@ const create = async ({ firstName, lastName, office }) => {
 };
 
 const createMany = async (employeesArray) => {
-  const employeesArraySchema = Joi.array().items(employeeSchema);
   const { error } = employeesArraySchema.validate(employeesArray);
 
   if (error) throw { status: 400, message: error.message };
@@ -55,7 +39,7 @@ const createMany = async (employeesArray) => {
 
   const newEmployees = employeesArray.map((employee, index) => ({id: newEmployeesResolvePromises[index], ...employee })); 
   return newEmployees.sort((a, b) => a.id - b.id); // ordena o retorno
-}
+};
 
 module.exports = {
   getAll,
